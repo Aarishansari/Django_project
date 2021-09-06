@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">My Exams</li>
+    </ol>
+  </nav>
+  <h2 class="mb-3">My Exams</h2>
+  <a href="{% url 'evaluators:exam_add' %}" class="btn btn-primary mb-3" role="button">Add exam</a>
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Exam</th>
+          <th>Subject</th>
+          <th>Questions</th>
+          <th>Taken</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for exam in exams %}
+          <tr>
+            <td class="align-middle"><a href="{% url 'evaluators:exam_change' exam.pk %}">{{ exam.name }}</a></td>
+            <td class="align-middle">{{ exam.subject.get_html_badge }}</td>
+            <td class="align-middle">{{ exam.questions_count }}</td>
+            <td class="align-middle">{{ exam.taken_count }}</td>
+            <td class="text-right">
+              <a href="{% url 'evaluators:exam_results' exam.pk %}" class="btn btn-primary">View results</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="5">You haven't created any exam yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
